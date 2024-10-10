@@ -15,16 +15,27 @@ const Form = () => {
   }, [textToEdit]);
   const submitHandler = (e) => {
     e.preventDefault();
+    // console.log(e);
+
+    // if (editFlag) {
+    //   console.log("edited");
+    //   dispatch({ type: "EDIT_TODO", payload: text });
+    // } else if (editFlag == false) {
+    //   const newTodo = { id: nanoid(), text, isChecked: false };
+    //   dispatch({ type: "ADD_TODO", payload: newTodo });
+    //   console.log("added");
+    //clear input
+  };
+
+  const onSubmitBtn = () => {
     if (editFlag) {
       console.log("edited");
       dispatch({ type: "EDIT_TODO", payload: text });
-    } else {
+    } else if (editFlag == false) {
       const newTodo = { id: nanoid(), text, isChecked: false };
       dispatch({ type: "ADD_TODO", payload: newTodo });
       console.log("added");
     }
-
-    //clear input
     setText("");
   };
   const back2Default = () => dispatch({ type: "CANCEL_EDIT_OPERATION" });
@@ -34,7 +45,12 @@ const Form = () => {
       back2Default();
     }
     if (editFlag && key === "Enter") {
+      console.log("it is on!");
       dispatch({ type: "EDIT_TODO", payload: text });
+    } else if (!editFlag && key === "Enter") {
+      const newTodo = { id: nanoid(), text, isChecked: false };
+      dispatch({ type: "ADD_TODO", payload: newTodo });
+      console.log("its not on the edit");
     }
   };
 
@@ -62,7 +78,8 @@ const Form = () => {
         </button>
       )}
       <button
-        type="submit"
+        type="button"
+        onClick={onSubmitBtn}
         className="p-2 text-4xl bg-[#6895D2] dark:bg-slate-800 dark:hover:text-[#98f4f4] text-slate-300 rounded-r-md hover:animate-pulse hover:duration-300 dark:text-slate-20"
       >
         {editFlag ? <PiArrowCircleRightFill /> : <PiPlusCircleFill />}

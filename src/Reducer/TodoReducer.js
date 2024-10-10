@@ -1,9 +1,11 @@
 const TodoReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_TODO':
-            return {
-                ...state,
-                todos: [...state.todos, action.payload]
+            if (!state.editFlag) {
+                return {
+                    ...state,
+                    todos: [...state.todos, action.payload]
+                }
             }
         case 'CHECK_TODO':
 
@@ -20,6 +22,8 @@ const TodoReducer = (state, action) => {
                 })
             }
         case 'EDIT_TODO':
+            console.log('edited');
+
             const updatedTodos = state.todos.map((todo) => {
                 if (todo.id === state.editID) {
                     return {
